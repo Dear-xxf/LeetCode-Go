@@ -1,5 +1,7 @@
 package Matrix
 
+import "sort"
+
 /*
 	题目描述：
 	Middle 搜索二维矩阵
@@ -15,21 +17,32 @@ package Matrix
 */
 
 func searchMatrix(matrix [][]int, target int) bool {
-	if len(matrix) == 0 {
-		return false
-	}
-	nx := len(matrix)
-	ny := len(matrix[0])
-	row, col := 0, ny-1
-	for row < nx && col > -1 {
-		if matrix[row][col] == target {
+	// 1.二分查找
+	for _, row := range matrix {
+		i := sort.SearchInts(row, target) // sort.SearchInts是go语言中标准的二分查找
+		// i如果没有查找到的话， 返回的 i 是 target 应该插入的位置，即第一个大于等于 target 的元素索引
+		if i < len(row) && row[i] == target {
 			return true
-		}
-		if matrix[row][col] < target {
-			row++
-		} else {
-			col--
 		}
 	}
 	return false
+
+	// 2.从右上角z字形查找
+	//if len(matrix) == 0 {
+	//	return false
+	//}
+	//nx := len(matrix)
+	//ny := len(matrix[0])
+	//row, col := 0, ny-1
+	//for row < nx && col > -1 {
+	//	if matrix[row][col] == target {
+	//		return true
+	//	}
+	//	if matrix[row][col] < target {
+	//		row++
+	//	} else {
+	//		col--
+	//	}
+	//}
+	//return false
 }
